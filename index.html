@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bakara Suresi 24. Ayet</title>
+  <title>Nasr Suresi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet" />
@@ -18,7 +18,7 @@
       text-align: right;
     }
     .ayet-container {
-      background: #FCF8EF;
+      background: fdfcdc;
       border-radius: 15px;
       padding: 20px;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -49,17 +49,26 @@
       user-select: none;
     }
     .arapca span.kelime {
-      padding: 0 5px;
-      cursor: default;
-      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 0 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+    .arapca span.kelime:hover {
+      background-color: #f0f0f0;
     }
     .arapca span.kelime.vurgulu {
-      color: #e74c3c;
+      color: #e74c3c; /* Kırmızı vurgu (tıklama) */
       font-weight: bold;
-      text-shadow: 0 0 1px rgba(231, 76, 60, 0.3);
+      text-shadow: 0 0 2px rgba(231, 76, 60, 0.3);
+    }
+    .arapca span.kelime.audio-vurgu {
+      color: #3498db; /* Mavi vurgu (audio otomatik) */
+      font-weight: bold;
+      text-shadow: 0 0 2px rgba(52, 152, 219, 0.3);
     }
     .controls {
-      background: #34495e;
+      background: #708d81;
       padding: 15px;
       border-radius: 10px;
       margin-bottom: 20px;
@@ -75,7 +84,7 @@
       margin-bottom: 10px;
     }
     button.control-btn {
-      background: #3498db;
+      background: #C9E4CA;
       color: white;
       border: none;
       padding: 8px 15px;
@@ -86,7 +95,7 @@
       transition: background-color 0.3s ease;
     }
     button.control-btn:hover {
-      background-color: #2980b9;
+      background-color: #c9e4ca;
     }
     .play-btn {
       background: none;
@@ -99,28 +108,6 @@
       width: 100%;
       max-width: 300px;
       height: 40px;
-    }
-    .kelime-listesi {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 25px;
-    }
-    .kelime-listesi .kelime-btn {
-      background: #34495E;
-      color: #FCF8EF;
-      padding: 8px 14px;
-      border-radius: 15px;
-      cursor: pointer;
-      font-family: 'Scheherazade New', serif;
-      font-size: 24px;
-      border: none;
-      user-select: none;
-      transition: background-color 0.3s ease;
-    }
-    .kelime-listesi .kelime-btn.active {
-      background-color: #0E9194;
     }
     .meal {
       font-family: Arial, sans-serif;
@@ -137,10 +124,6 @@
       }
       .arapca {
         font-size: 24px;
-      }
-      .kelime-listesi .kelime-btn {
-        font-size: 24px;
-        padding: 6px 10px;
       }
       .besmele {
         font-size: 18px;
@@ -161,17 +144,17 @@
 <body>
   <div class="ayet-container">
     <div class="besmele">بسم الله الرحمن الرحيم</div>
-    <div class="sure-adi">Nasr Suresi</div>
+    <div class="sure-adi">Nasr suresi</div>
     <div class="arapca" id="ayet-tam">
       <span class="kelime" data-start="0">اِذَا جَآءَ</span>
       <span class="kelime" data-start="2.4"> نَصْرُ اللهِ</span>
       <span class="kelime" data-start="4.4"> وَالْفَتْحُ۞</span>
       <span class="kelime" data-start="6.8">وَرَاَيْتَ النَّاسَ</span>
       <span class="kelime" data-start="9.5">يَدْخُلُونَ </span>
-      <span class="kelime" data-start="11.5">فِي دِينِ اللَّهِ اَفْوَاجًاِ۞</span>
-      <span class="kelime" data-start="17.1">فَسَبِّحْ بَِحَمْدِ</span>
-      <span class="kelime" data-start="19.4"> رَبِّكَ وَاسْتَغْفِرْهُ ۚ</span>
-      <span class="kelime" data-start="23.4">اِنَّهُ كَانَ تَوَّابًا۞</span>
+      <span class="kelime" data-start="11.3">فِي دِينِ اللَّهِ اَفْوَاجًاِ۞</span>
+      <span class="kelime" data-start="17.2">فَسَبِّحْ بَِحَمْدِ</span>
+      <span class="kelime" data-start="19.5"> رَبِّكَ وَاسْتَغْفِرْهُ ۚ</span>
+      <span class="kelime" data-start="23.2">اِنَّهُ كَانَ تَوَّابًا۞</span>
     </div>
 
     <div class="controls">
@@ -191,10 +174,8 @@
       </div>
     </div>
 
-    <div class="kelime-listesi" id="kelime-listesi"></div>
-
     <div class="meal">
-      <strong>Meali:</strong> 1. Allah'ın yardımı ve zafer günü gelip, 2. insanların Allah'ın dinine akın akın girdiklerini görünce, 3. Rabbini överek tesbih et; O'ndan bağışlama dile, çünkü O, tevbeleri daima kabul edendir.
+      <strong>Meali:</strong> Allah'ın yardımı ve zafer günü gelip, insanların Allah'ın dinine akın akın girdiklerini görünce, Rabbini överek tesbih et; O'ndan bağışlama dile, çünkü O, tevbeleri daima kabul edendir.
     </div>
   </div>
 
@@ -202,44 +183,51 @@
     document.addEventListener('DOMContentLoaded', () => {
       const ayetTam = document.getElementById('ayet-tam');
       const kelimeler = ayetTam.querySelectorAll('span.kelime');
-      const kelimeListesi = document.getElementById('kelime-listesi');
       const ayetAudio = document.getElementById('ayetAudio');
       const playPauseBtn = document.getElementById('playPauseBtn');
       const speedSelector = document.getElementById('speed');
+      let isPlayingAll = false;
+      let currentWordAudio = null;
 
-      // Kelime butonlarını oluştur
-      kelimeler.forEach((kelime, idx) => {
-        const btn = document.createElement('button');
-        btn.classList.add('kelime-btn');
-        btn.textContent = kelime.textContent;
-        btn.dataset.start = kelime.dataset.start;
-        btn.dataset.index = idx;
-        btn.addEventListener('click', () => {
-          stopAll();
-          playSingleWord(idx, btn);
+      // Kelime tıklama işlevi
+      kelimeler.forEach((kelime, index) => {
+        kelime.addEventListener('click', () => {
+          if (isPlayingAll) {
+            ayetAudio.pause();
+            isPlayingAll = false;
+            playPauseBtn.textContent = '▶️';
+            removeAudioHighlights();
+          }
+          playSingleWord(index);
         });
-        kelimeListesi.appendChild(btn);
       });
 
       // Tek kelime oynatma
-      function playSingleWord(index, btn) {
+      function playSingleWord(index) {
+        if (currentWordAudio) {
+          currentWordAudio.pause();
+        }
+        
         const wordText = kelimeler[index].textContent.trim();
-        const wordAudio = new Audio(wordText + '.mp3');
-        wordAudio.playbackRate = parseFloat(speedSelector.value);
-        removeHighlights();
-        highlightWord(index);
-        clearActiveButtons();
-        btn.classList.add('active');
-        wordAudio.play();
-        wordAudio.onended = () => {
-          btn.classList.remove('active');
-          removeHighlights();
+        currentWordAudio = new Audio(wordText + '.mp3');
+        currentWordAudio.playbackRate = parseFloat(speedSelector.value);
+        
+        removeAllHighlights();
+        highlightWord(index, 'click');
+        
+        currentWordAudio.play();
+        currentWordAudio.onended = () => {
+          removeHighlight(index, 'click');
         };
       }
 
       // Play/Pause butonu işlevi
       playPauseBtn.addEventListener('click', () => {
         if (ayetAudio.paused) {
+          if (currentWordAudio) {
+            currentWordAudio.pause();
+            removeAllHighlights();
+          }
           ayetAudio.play();
           playPauseBtn.textContent = '⏸️';
           isPlayingAll = true;
@@ -247,59 +235,75 @@
           ayetAudio.pause();
           playPauseBtn.textContent = '▶️';
           isPlayingAll = false;
+          removeAudioHighlights();
         }
       });
 
       // Hız değiştirme
       speedSelector.addEventListener('change', () => {
         ayetAudio.playbackRate = parseFloat(speedSelector.value);
+        if (currentWordAudio) {
+          currentWordAudio.playbackRate = parseFloat(speedSelector.value);
+        }
       });
 
       // Audio bitince butonu sıfırla
       ayetAudio.addEventListener('ended', () => {
         playPauseBtn.textContent = '▶️';
         isPlayingAll = false;
-        removeHighlights();
+        removeAudioHighlights();
       });
 
-      // Tümünü durdur
-      function stopAll() {
-        isPlayingAll = false;
-        ayetAudio.pause();
-        ayetAudio.currentTime = 0;
-        playPauseBtn.textContent = '▶️';
-        removeHighlights();
-        clearActiveButtons();
+      // Kelime vurgulama (type: 'audio' veya 'click')
+      function highlightWord(index, type) {
+        kelimeler[index].classList.add(type === 'audio' ? 'audio-vurgu' : 'vurgulu');
       }
 
-      // Kelime vurgulama
-      function highlightWord(index) {
-        kelimeler[index].classList.add('vurgulu');
+      // Tekil vurgu kaldırma
+      function removeHighlight(index, type) {
+        kelimeler[index].classList.remove(type === 'audio' ? 'audio-vurgu' : 'vurgulu');
       }
 
-      // Vurguları kaldır
-      function removeHighlights() {
-        kelimeler.forEach((k) => k.classList.remove('vurgulu'));
+      // Tüm audio vurgularını kaldır
+      function removeAudioHighlights() {
+        kelimeler.forEach(kelime => kelime.classList.remove('audio-vurgu'));
       }
 
-      // Aktif butonları temizle
-      function clearActiveButtons() {
-        document.querySelectorAll('.kelime-btn.active').forEach((b) => b.classList.remove('active'));
+      // Tüm tıklama vurgularını kaldır
+      function removeClickHighlights() {
+        kelimeler.forEach(kelime => kelime.classList.remove('vurgulu'));
+      }
+
+      // Tüm vurguları kaldır
+      function removeAllHighlights() {
+        removeAudioHighlights();
+        removeClickHighlights();
       }
 
       // Ayet oynarken kelimeleri vurgula
       ayetAudio.ontimeupdate = () => {
-        if (ayetAudio.paused) return;
+        if (!isPlayingAll || ayetAudio.paused) return;
+        
         const currentTime = ayetAudio.currentTime;
+        let activeWordFound = false;
+        
         kelimeler.forEach((kelime, idx) => {
           const start = parseFloat(kelime.dataset.start);
-          const end = start + 3;
+          const end = start + 3; // Her kelime 3 saniye vurgulu kalsın
+          
           if (currentTime >= start && currentTime < end) {
-            removeHighlights();
-            highlightWord(idx);
-            clearActiveButtons();
+            if (!kelime.classList.contains('audio-vurgu')) {
+              removeAudioHighlights();
+              highlightWord(idx, 'audio');
+            }
+            activeWordFound = true;
           }
         });
+        
+        // Aktif kelime yoksa tüm vurguları kaldır
+        if (!activeWordFound) {
+          removeAudioHighlights();
+        }
       };
     });
   </script>
