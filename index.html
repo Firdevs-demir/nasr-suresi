@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nasr Suresi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      direction: rtl;
+      text-align: right;
+    }
+    .ayet-container {
+      background: fdfcdc;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    .besmele {
+      font-family: 'Scheherazade New', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 6px;
+      user-select: none;
+    }
+    .sure-adi {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 16px;
+      color: #34495e;
+      text-align: center;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+    .arapca {
+      font-family: 'Scheherazade New', serif;
+      font-size: 32px;
+      line-height: 2;
+      color: #333;
+      margin-bottom: 10px;
+      user-select: none;
+    }
+    .arapca span.kelime {
+      padding: 0 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+    .arapca span.kelime:hover {
+      background-color: #f0f0f0;
+    }
+    .arapca span.kelime.vurgulu {
+      color: #e74c3c; /* Kırmızı vurgu (tıklama) */
+      font-weight: bold;
+      text-shadow: 0 0 2px rgba(231, 76, 60, 0.3);
+    }
+    .arapca span.kelime.audio-vurgu {
+      color: #3498db; /* Mavi vurgu (audio otomatik) */
+      font-weight: bold;
+      text-shadow: 0 0 2px rgba(52, 152, 219, 0.3);
+    }
+    .controls {
+      background: #708d81;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: white;
+      user-select: none;
+    }
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    button.control-btn {
+      background: #C9E4CA;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    button.control-btn:hover {
+      background-color: #c9e4ca;
+    }
+    .play-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      color: white;
+    }
+    audio {
+      width: 100%;
+      max-width: 300px;
+      height: 40px;
+    }
+    .meal {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: #444;
+      line-height: 1.5;
+      text-align: justify;
+      direction: ltr;
+      user-select: text;
+    }
+    
+    /* Talimat ekranı stilleri */
+    .talimat-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .talimat-container {
+      background-color: #f8f9fa;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .talimat-container h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .talimat-container ul {
+      padding-left: 20px;
+    }
+    .talimat-container li {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .basla-btn {
+      display: block;
+      margin: 25px auto 0;
+      padding: 10px 25px;
+      background-color: #708d81;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .basla-btn:hover {
+      background-color: #5a6f65;
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      .arapca {
+        font-size: 24px;
+      }
+      .besmele {
+        font-size: 18px;
+      }
+      .sure-adi {
+        font-size: 14px;
+      }
+      .audio-controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+      audio {
+        width: 100%;
+      }
+      .talimat-container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Talimat ekranı -->
+  <div class="talimat-overlay" id="talimatOverlay">
+    <div class="talimat-container">
+      <h2>Nasr Suresi Uygulama Kullanım Kılavuzu</h2>
+      <p>Bu uygulama, Kur'an-ı Kerim'i öğrenmek ve ezber çalışması yapmak isteyenler için tasarlanmıştır. Kendi öğrenme hızınıza göre ayarlayabileceğiniz özellikler içerir.</p>
+      
+      <h3>Nasıl Kullanılır?</h3>
+      <ul>
+        <li><strong>Mavi "Başlat" butonu:</strong> Surenin tamamını dinlemek ve kelimelerin mavi renkte otomatik olarak takibini sağlar.</li>
+        <li><strong>Hız ayarı:</strong> Dinleme hızınızı 0.5x ile 1.5x arasında ayarlayabilirsiniz.</li>
+        <li><strong>Kelime kelime dinleme:</strong> Herhangi bir kelimeye tıklayarak o kelimeyi tek başına dinleyebilirsiniz (kelime kırmızı renkte vurgulanır).</li>
+      </ul>
+      
+      <h3>Öğrenme İpuçları</h3>
+      <ul>
+        <li>Ezber çalışması yaparken önce tüm sureyi dinleyin, sonra kelime kelime çalışın.</li>
+        <li>Kendi hızınıza uygun olan dinleme hızını seçin, zamanla hızınızı artırabilirsiniz.</li>
+        <li>Kelime kelime çalışırken, önce kelimeyi dinleyip sonra tekrar etmeye çalışın.</li>
+      </ul>
+      
+      <button class="basla-btn" id="baslaBtn">ANLADIM, BAŞLA</button>
+    </div>
+  </div>
+
+  <div class="ayet-container">
+    <div class="besmele">بسم الله الرحمن الرحيم</div>
+    <div class="sure-adi">Nasr suresi</div>
+    <div class="arapca" id="ayet-tam">
+      <span class="kelime" data-start="0">اِذَا جَآءَ</span>
+      <span class="kelime" data-start="2.4"> نَصْرُ اللهِ</span>
+      <span class="kelime" data-start="4.4"> وَالْفَتْحُ۞</span>
+      <span class="kelime" data-start="6.8">وَرَاَيْتَ النَّاسَ</span>
+      <span class="kelime" data-start="9.5">يَدْخُلُونَ </span>
+      <span class="kelime" data-start="11.3">فِي دِينِ اللَّهِ اَفْوَاجًاِ۞</span>
+      <span class="kelime" data-start="17.2">فَسَبِّحْ بَِحَمْدِ</span>
+      <span class="kelime" data-start="19.5"> رَبِّكَ وَاسْتَغْفِرْهُ ۚ</span>
+      <span class="kelime" data-start="23.2">اِنَّهُ كَانَ تَوَّابًا۞</span>
+    </div>
+
+    <div class="controls">
+      <div class="audio-controls">
+        <button class="play-btn" id="playPauseBtn">▶️</button>
+        <audio id="ayetAudio" src="ayet.mp3" controls></audio>
+      </div>
+      <div>
+        <label for="speed">Hız: </label>
+        <select id="speed">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1" selected>1x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="meal">
+      <strong>Meali:</strong> Allah'ın yardımı ve zafer günü gelip, insanların Allah'ın dinine akın akın girdiklerini görünce, Rabbini överek tesbih et; O'ndan bağışlama dile, çünkü O, tevbeleri daima kabul edendir.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Talimat ekranını kapatma
+      const talimatOverlay = document.getElementById('talimatOverlay');
+      const baslaBtn = document.getElementById('baslaBtn');
+      
+      baslaBtn.addEventListener('click', () => {
+        talimatOverlay.style.display = 'none';
+      });
+      
+      // Uygulama işlevselliği
+      const ayetTam = document.getElementById('ayet-tam');
+      const kelimeler = ayetTam.querySelectorAll('span.kelime');
+      const ayetAudio = document.getElementById('ayetAudio');
+      const playPauseBtn = document.getElementById('playPauseBtn');
+      const speedSelector = document.getElementById('speed');
+      let isPlayingAll = false;
+      let currentWordAudio = null;
+
+      // Kelime tıklama işlevi
+      kelimeler.forEach((kelime, index) => {
+        kelime.addEventListener('click', () => {
+          if (isPlayingAll) {
+            ayetAudio.pause();
+            isPlayingAll = false;
+            playPauseBtn.textContent = '▶️';
+            removeAudioHighlights();
+          }
+          playSingleWord(index);
+        });
+      });
+
+      // Tek kelime oynatma
+      function playSingleWord(index) {
+        if (currentWordAudio) {
+          currentWordAudio.pause();
+        }
+        
+        const wordText = kelimeler[index].textContent.trim();
+        currentWordAudio = new Audio(wordText + '.mp3');
+        currentWordAudio.playbackRate = parseFloat(speedSelector.value);
+        
+        removeAllHighlights();
+        highlightWord(index, 'click');
+        
+        currentWordAudio.play();
+        currentWordAudio.onended = () => {
+          removeHighlight(index, 'click');
+        };
+      }
+
+      // Play/Pause butonu işlevi
+      playPauseBtn.addEventListener('click', () => {
+        if (ayetAudio.paused) {
+          if (currentWordAudio) {
+            currentWordAudio.pause();
+            removeAllHighlights();
+          }
+          ayetAudio.play();
+          playPauseBtn.textContent = '⏸️';
+          isPlayingAll = true;
+        } else {
+          ayetAudio.pause();
+          playPauseBtn.textContent = '▶️';
+          isPlayingAll = false;
+          removeAudioHighlights();
+        }
+      });
+
+      // Hız değiştirme
+      speedSelector.addEventListener('change', () => {
+        ayetAudio.playbackRate = parseFloat(speedSelector.value);
+        if (currentWordAudio) {
+          currentWordAudio.playbackRate = parseFloat(speedSelector.value);
+        }
+      });
+
+      // Audio bitince butonu sıfırla
+      ayetAudio.addEventListener('ended', () => {
+        playPauseBtn.textContent = '▶️';
+        isPlayingAll = false;
+        removeAudioHighlights();
+      });
+
+      // Kelime vurgulama (type: 'audio' veya 'click')
+      function highlightWord(index, type) {
+        kelimeler[index].classList.add(type === 'audio' ? 'audio-vurgu' : 'vurgulu');
+      }
+
+      // Tekil vurgu kaldırma
+      function removeHighlight(index, type) {
+        kelimeler[index].classList.remove(type === 'audio' ? 'audio-vurgu' : 'vurgulu');
+      }
+
+      // Tüm audio vurgularını kaldır
+      function removeAudioHighlights() {
+        kelimeler.forEach(kelime => kelime.classList.remove('audio-vurgu'));
+      }
+
+      // Tüm tıklama vurgularını kaldır
+      function removeClickHighlights() {
+        kelimeler.forEach(kelime => kelime.classList.remove('vurgulu'));
+      }
+
+      // Tüm vurguları kaldır
+      function removeAllHighlights() {
+        removeAudioHighlights();
+        removeClickHighlights();
+      }
+
+      // Ayet oynarken kelimeleri vurgula
+      ayetAudio.ontimeupdate = () => {
+        if (!isPlayingAll || ayetAudio.paused) return;
+        
+        const currentTime = ayetAudio.currentTime;
+        let activeWordFound = false;
+        
+        kelimeler.forEach((kelime, idx) => {
+          const start = parseFloat(kelime.dataset.start);
+          const end = start + 3; // Her kelime 3 saniye vurgulu kalsın
+          
+          if (currentTime >= start && currentTime < end) {
+            if (!kelime.classList.contains('audio-vurgu')) {
+              removeAudioHighlights();
+              highlightWord(idx, 'audio');
+            }
+            activeWordFound = true;
+          }
+        });
+        
+        // Aktif kelime yoksa tüm vurguları kaldır
+        if (!activeWordFound) {
+          removeAudioHighlights();
+        }
+      };
+    });
+  </script>
+</body>
+</html>
